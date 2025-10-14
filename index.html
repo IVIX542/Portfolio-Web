@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Iván López | Desarrollador Multiplataforma</title>
+    <meta name="description" content="Portfolio profesional de Iván López Benítez, desarrollador multiplataforma especializado en crear soluciones digitales eficientes y atractivas.">
+    <meta name="author" content="Iván López">
+
+    <!-- Iconos para el tema -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+    <style>
+        /* --- Fuentes y Variables CSS (Paleta de colores) --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+        :root {
+            /* Tema Claro (por defecto) */
+            --primary-color: #005AE0;
+            --secondary-color: #0d1b2a;
+            --background-color: #f8f9fa;
+            --surface-color: #ffffff;
+            --text-color: #495057;
+            --heading-color: #0d1b2a;
+            --border-color: #dee2e6;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --transition-speed: 0.3s ease;
+        }
+        
+        body.dark-theme {
+            /* Tema Oscuro */
+            --primary-color: #3b82f6;
+            --secondary-color: #e2e8f0;
+            --background-color: #0f172a;
+            --surface-color: #1e293b;
+            --text-color: #94a3b8;
+            --heading-color: #f8fafc;
+            --border-color: #334155;
+            --shadow-color: rgba(0, 0, 0, 0.2);
+        }
+
+        /* --- Reset y Estilos Globales --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 5rem;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        section {
+            padding: 6rem 0;
+            overflow: hidden; /* Evita que las animaciones creen scroll horizontal */
+        }
+
+        h1, h2, h3 {
+            color: var(--heading-color);
+            font-weight: 700;
+            line-height: 1.2;
+            transition: color var(--transition-speed);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--primary-color);
+            margin: 0.5rem auto 0;
+            border-radius: 2px;
+            transition: background-color var(--transition-speed);
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color var(--transition-speed);
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- Header y Navegación --- */
+        .header {
+            background-color: var(--surface-color);
+            box-shadow: 0 4px 15px var(--shadow-color);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 5rem;
+        }
+        
+        .nav__menu-container {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav__logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .nav__list {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav__link {
+            font-weight: 600;
+            color: var(--heading-color);
+        }
+
+        .nav__link:hover {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .nav__toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--heading-color);
+        }
+
+        /* --- Botón de Tema --- */
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--heading-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .theme-toggle .feather {
+            width: 22px;
+            height: 22px;
+            transition: transform 0.4s ease;
+        }
+        .theme-toggle:hover .feather {
+            transform: rotate(15deg);
+        }
+        .theme-toggle .icon-sun { display: none; }
+        .theme-toggle .icon-moon { display: block; }
+        
+        body.dark-theme .theme-toggle .icon-sun { display: block; }
+        body.dark-theme .theme-toggle .icon-moon { display: none; }
+        
+        /* --- Sección Hero --- */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 100vh;
+            padding-top: 5rem;
+        }
+        
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1rem;
+        }
+
+        .hero__subtitle {
+            font-size: 1.25rem;
+            color: var(--text-color);
+            margin-bottom: 2rem;
+            transition: color var(--transition-speed);
+        }
+
+        .hero__subtitle span {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 0.8rem 2rem;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed), background-color var(--transition-speed);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 90, 224, 0.3);
+            text-decoration: none;
+        }
+        
+        body.dark-theme .btn:hover {
+            box-shadow: 0 8px 20px hsla(217, 91%, 60%, 0.3);
+        }
+        
+        /* --- Sección "Sobre Mí" --- */
+        .about__container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .about__img {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--primary-color);
+            justify-self: center;
+            transition: border-color var(--transition-speed);
+        }
+
+        /* --- Sección "Proyectos" --- */
+        .projects__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--surface-color);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed), background-color var(--transition-speed);
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 25px var(--shadow-color);
+        }
+
+        .project-card__img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .project-card__content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .project-card__tags {
+            margin-bottom: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .project-card__tag {
+            background-color: var(--primary-color);
+            color: #fff;
+            opacity: 0.8;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: background-color var(--transition-speed);
+        }
+
+        .project-card__title {
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .project-card__description {
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .project-card__links a {
+            font-weight: 600;
+            margin-right: 1.5rem;
+        }
+        
+        /* --- Sección "Contacto" --- */
+        .contact__container {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact__form {
+            display: grid;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .contact__form .btn {
+            justify-self: center;
+            border: none;
+            width: 200px;
+        }
+        
+        .form-group {
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            background: var(--surface-color);
+            color: var(--text-color);
+            transition: border-color var(--transition-speed), background-color var(--transition-speed), color var(--transition-speed);
+        }
+        
+        .form-label {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            color: var(--text-color);
+            pointer-events: none;
+            transition: top 0.2s, left 0.2s, font-size 0.2s;
+        }
+
+        .form-input:focus,
+        .form-input:not(:placeholder-shown) {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .form-input:focus ~ .form-label,
+        .form-input:not(:placeholder-shown) ~ .form-label {
+            top: -0.6rem;
+            left: 0.8rem;
+            font-size: 0.8rem;
+            color: var(--primary-color);
+            background-color: var(--background-color);
+            padding: 0 0.25rem;
+        }
+        
+        .form-status {
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+
+        /* --- Footer --- */
+        .footer {
+            background: var(--secondary-color);
+            color: var(--background-color);
+            text-align: center;
+            padding: 2rem 0;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+        }
+
+        /* --- Animaciones de Scroll --- */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Responsive Design (Media Queries) --- */
+        @media (max-width: 768px) {
+            h2 {
+                font-size: 2rem;
+            }
+
+            .nav__list {
+                position: fixed;
+                top: 5rem;
+                right: -100%;
+                width: 100%;
+                height: calc(100vh - 5rem);
+                background-color: var(--surface-color);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: right var(--transition-speed), background-color var(--transition-speed);
+            }
+
+            .nav__list.active {
+                right: 0;
+            }
+
+            .nav__toggle {
+                display: block;
+            }
+            
+            .theme-toggle {
+                margin-right: -1rem; /* Ajuste para que no se pegue al menú hamburguesa */
+            }
+
+            .about__container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .about__img {
+                width: 200px;
+                height: 200px;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header" id="header">
+        <div class="container nav">
+            <a href="#" class="nav__logo">ILopBen.dev</a>
+            
+            <div class="nav__menu-container">
+                <ul class="nav__list" id="nav-list">
+                    <li><a href="#about" class="nav__link">Sobre mí</a></li>
+                    <li><a href="#projects" class="nav__link">Proyectos</a></li>
+                    <li><a href="#contact" class="nav__link">Contacto</a></li>
+                </ul>
+
+                <button class="theme-toggle" id="theme-toggle" aria-label="Cambiar tema">
+                    <i data-feather="moon" class="icon-moon"></i>
+                    <i data-feather="sun" class="icon-sun"></i>
+                </button>
+
+                <button class="nav__toggle" id="nav-toggle" aria-label="Menú">
+                    <i data-feather="menu"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="hero">
+            <div class="container">
+                <h1 class="animate-on-scroll">Hola, soy Iván</h1>
+                <p class="hero__subtitle animate-on-scroll" style="transition-delay: 150ms;">Desarrollador Multiplataforma <span>Full Stack</span></p>
+                <a href="#projects" class="btn animate-on-scroll" style="transition-delay: 300ms;">Ver mis proyectos</a>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="container">
+                <h2 class="animate-on-scroll">Sobre Mí</h2>
+                <div class="about__container animate-on-scroll">
+                    <img src="https://placehold.co/300x300/005AE0/FFFFFF?text=IvLo" alt="Foto de perfil de Iván López" class="about__img">
+                    <div class="about__text">
+                         <p>
+                             ¡Bienvenido a mi rincón digital! Soy un apasionado desarrollador multiplataforma enfocado en construir soluciones tecnológicas que sean tanto funcionales como visualmente atractivas.
+                             <br><br>
+                             Mi especialidad es el desarrollo con tecnologías como Java, Python, C# o C++. Me encanta transformar ideas complejas en interfaces de usuario intuitivas y eficientes. Estoy siempre en busca de nuevos retos para seguir aprendiendo y mejorando mis habilidades.
+                         </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" style="background-color: var(--surface-color);">
+            <div class="container">
+                <h2 class="animate-on-scroll">Mis Proyectos</h2>
+                <div class="projects__grid">
+
+                    <article class="project-card animate-on-scroll">
+                        <img src="img/notiseet.png" alt="Imagen del Proyecto NotiSeet" class="project-card__img">
+                        <div class="project-card__content">
+                            <div class="project-card__tags">
+                                <span class="project-card__tag">HTML</span>
+                                <span class="project-card__tag">CSS</span>
+                                <span class="project-card__tag">JavaScript</span>
+                            </div>
+                            <h3 class="project-card__title">NotiSeet</h3>
+                            <p class="project-card__description">
+                                Aplicación de notas inteligentes que permite a los usuarios crear, organizar y buscar notas de manera eficiente. Utiliza tecnologías web modernas para una experiencia fluida.
+                            </p>
+                            <div class="project-card__links">
+                                <a href="https://ivix542.github.io/app-notas/notiseet.html" target="_blank">Probar →</a>
+                                <a href="https://github.com/IVIX542/app-notas" target="_blank">Ver Código →</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="project-card animate-on-scroll" style="transition-delay: 150ms;">
+                        <img src="https://placehold.co/400x250/1e293b/FFFFFF?text=Proyecto+2" alt="Imagen del Proyecto 2" class="project-card__img">
+                        <div class="project-card__content">
+                             <div class="project-card__tags">
+                                 <span class="project-card__tag">Node.js</span>
+                                 <span class="project-card__tag">Express</span>
+                                 <span class="project-card__tag">API</span>
+                             </div>
+                            <h3 class="project-card__title">Nombre del Proyecto 2</h3>
+                            <p class="project-card__description">
+                                Una breve descripción del proyecto. Explica su propósito, los desafíos que enfrentaste y las tecnologías que utilizaste.
+                            </p>
+                            <div class="project-card__links">
+                                <a href="#" target="_blank">Probar →</a>
+                                <a href="#" target="_blank">Ver Código →</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="project-card animate-on-scroll" style="transition-delay: 300ms;">
+                        <img src="https://placehold.co/400x250/4f46e5/FFFFFF?text=Proyecto+3" alt="Imagen del Proyecto 3" class="project-card__img">
+                        <div class="project-card__content">
+                            <div class="project-card__tags">
+                                <span class="project-card__tag">React</span>
+                                <span class="project-card__tag">CSS Modules</span>
+                                <span class="project-card__tag">Vite</span>
+                            </div>
+                            <h3 class="project-card__title">Nombre del Proyecto 3</h3>
+                            <p class="project-card__description">
+                                Una breve descripción del proyecto. Explica su propósito, los desafíos que enfrentaste y las tecnologías que utilizaste.
+                            </p>
+                            <div class="project-card__links">
+                                <a href="#" target="_blank">Probar →</a>
+                                <a href="#" target="_blank">Ver Código →</a>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="container contact__container">
+                <h2 class="animate-on-scroll">Contacto</h2>
+                <p class="animate-on-scroll">¿Interesado en colaborar o tienes alguna pregunta? No dudes en contactarme. Rellena el formulario y te responderé lo antes posible.</p>
+                
+                <form id="contact-form" class="contact__form animate-on-scroll" action="https://formspree.io/f/YOUR_UNIQUE_ID" method="POST">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" class="form-input" placeholder=" " required>
+                        <label for="name" class="form-label">Nombre</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" class="form-input" placeholder=" " required>
+                        <label for="email" class="form-label">Email</label>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" name="message" rows="5" class="form-input" placeholder=" " required></textarea>
+                        <label for="message" class="form-label">Mensaje</label>
+                    </div>
+                    <button type="submit" class="btn">Enviar Mensaje</button>
+                </form>
+                <p id="form-status" class="form-status"></p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+             <p>&copy; 2025 Iván López Benítez. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Reemplaza los íconos de Feather
+            feather.replace();
+
+            // --- Menú de Navegación Móvil ---
+            const navToggle = document.getElementById('nav-toggle');
+            const navList = document.getElementById('nav-list');
+            const navLinks = document.querySelectorAll('.nav__link');
+
+            navToggle.addEventListener('click', () => {
+                navList.classList.toggle('active');
+            });
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    navList.classList.remove('active');
+                });
+            });
+
+            // --- Lógica del Tema Claro/Oscuro ---
+            const themeToggle = document.getElementById('theme-toggle');
+            const currentTheme = localStorage.getItem('theme');
+
+            // Aplicar tema guardado al cargar la página
+            if (currentTheme) {
+                document.body.classList.add(currentTheme);
+            }
+
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-theme');
+                
+                let theme = 'light-theme';
+                if (document.body.classList.contains('dark-theme')) {
+                    theme = 'dark-theme';
+                }
+                localStorage.setItem('theme', theme);
+            });
+
+
+            // --- Lógica del Formulario de Contacto ---
+            const form = document.getElementById('contact-form');
+            
+            async function handleSubmit(event) {
+                event.preventDefault();
+                const status = document.getElementById("form-status");
+                const data = new FormData(event.target);
+                
+                try {
+                    const response = await fetch(event.target.action, {
+                        method: form.method,
+                        body: data,
+                        headers: { 'Accept': 'application/json' }
+                    });
+
+                    if (response.ok) {
+                        status.textContent = "¡Gracias por tu mensaje! Me pondré en contacto contigo pronto.";
+                        status.style.color = 'green';
+                        form.reset();
+                    } else {
+                        throw new Error('Network response was not ok.');
+                    }
+                } catch (error) {
+                    status.textContent = "Oops! Hubo un problema al enviar tu formulario. Inténtalo de nuevo más tarde.";
+                    status.style.color = 'red';
+                }
+            }
+            form.addEventListener("submit", handleSubmit);
+
+
+            // --- Animación al hacer Scroll (Intersection Observer) ---
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, {
+                threshold: 0.1 // El elemento se animará cuando un 10% sea visible
+            });
+
+            animatedElements.forEach(el => {
+                observer.observe(el);
+            });
+            
+            // --- Header translúcido al hacer scroll ---
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.style.backgroundColor = document.body.classList.contains('dark-theme') 
+                        ? 'hsla(222, 47%, 11%, 0.8)' 
+                        : 'hsla(0, 0%, 100%, 0.8)';
+                    header.style.backdropFilter = 'blur(10px)';
+                } else {
+                    header.style.backgroundColor = 'var(--surface-color)';
+                    header.style.backdropFilter = 'none';
+                }
+            }, { passive: true });
+
+        });
+    </script>
+</body>
+</html>
