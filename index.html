@@ -30,6 +30,7 @@
             --md-sys-color-background-light: #fefbff;
             --md-sys-color-on-background-light: #1b1b1f;
             --md-sys-color-surface-light: #fefbff;
+            --md-sys-color-surface-container-light: #f3f4f9;
             --md-sys-color-surface-container-highest-light: #e3e2e6;
             --md-sys-color-on-surface-light: #1b1b1f;
             --md-sys-color-surface-variant-light: #e1e2ec;
@@ -37,7 +38,6 @@
             --md-sys-color-outline-light: #74777f;
             --md-sys-color-shadow-light: #000000;
             --md-sys-color-ripple-light: #005ac1;
-
 
             /* Tema Oscuro */
             --md-sys-color-primary-dark: #adc6ff;
@@ -49,6 +49,7 @@
             --md-sys-color-background-dark: #1b1b1f;
             --md-sys-color-on-background-dark: #e3e2e6;
             --md-sys-color-surface-dark: #1b1b1f;
+            --md-sys-color-surface-container-dark: #20242d;
             --md-sys-color-surface-container-highest-dark: #33353a;
             --md-sys-color-on-surface-dark: #e3e2e6;
             --md-sys-color-surface-variant-dark: #44474f;
@@ -57,11 +58,10 @@
             --md-sys-color-shadow-dark: #000000;
             --md-sys-color-ripple-dark: #adc6ff;
 
-
             /* Tipografía y Forma */
             --md-sys-typescale-font-family: 'Inter', sans-serif;
             --md-sys-shape-corner-small: 4px;
-            --md-sys-shape-corner-medium: 8px;
+            --md-sys-shape-corner-medium: 12px;
             --md-sys-shape-corner-large: 16px;
             --md-sys-shape-corner-full: 100px;
             --transition-speed: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -76,6 +76,7 @@
             --on-primary-container-color: var(--md-sys-color-on-primary-container-light);
             --background-color: var(--md-sys-color-background-light);
             --surface-color: var(--md-sys-color-surface-light);
+            --surface-container-color: var(--md-sys-color-surface-container-light);
             --surface-container-high: var(--md-sys-color-surface-container-highest-light);
             --on-surface-color: var(--md-sys-color-on-surface-light);
             --on-surface-variant-color: var(--md-sys-color-on-surface-variant-light);
@@ -91,6 +92,7 @@
             --on-primary-container-color: var(--md-sys-color-on-primary-container-dark);
             --background-color: var(--md-sys-color-background-dark);
             --surface-color: var(--md-sys-color-surface-dark);
+            --surface-container-color: var(--md-sys-color-surface-container-dark);
             --surface-container-high: var(--md-sys-color-surface-container-highest-dark);
             --on-surface-color: var(--md-sys-color-on-surface-dark);
             --on-surface-variant-color: var(--md-sys-color-on-surface-variant-dark);
@@ -100,161 +102,152 @@
         }
 
         /* --- Reset y Estilos Globales --- */
-        *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 6rem;
-        }
-
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
         body {
             font-family: var(--md-sys-typescale-font-family);
             background-color: var(--background-color);
             color: var(--on-surface-variant-color);
             line-height: 1.6;
             transition: background-color var(--transition-speed), color var(--transition-speed);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-        
-        section {
-            padding: 7rem 0;
+            cursor: none;
+            position: relative;
             overflow-x: hidden;
         }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
+        section { padding: 7rem 0; overflow-x: hidden; }
         
+        /* --- Scrollbar --- */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--surface-container-color); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: var(--md-sys-shape-corner-full); }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary-container-color); }
+
         /* --- Tipografía MD3 --- */
-        h1, h2, h3, .type-display, .type-headline, .type-title {
-            color: var(--on-surface-color);
-            font-weight: 700;
-            line-height: 1.2;
-            transition: color var(--transition-speed);
-        }
-        
+        h1, h2, h3, .type-display, .type-headline, .type-title { color: var(--on-surface-color); font-weight: 700; line-height: 1.2; transition: color var(--transition-speed); }
         .type-display { font-size: clamp(2.8rem, 5vw, 4.5rem); font-weight: 600; }
         .type-headline { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 500; color: var(--on-surface-variant-color); }
         .type-title-large { font-size: 1.6rem; margin-bottom: 2rem; text-align: center; }
-        .type-title-medium { font-size: 1.25rem; }
-
         a { color: var(--primary-color); text-decoration: none; transition: color var(--transition-speed); }
 
         /* --- Header / Top App Bar --- */
-        .header {
-            background-color: var(--surface-color);
-            position: fixed;
-            width: 100%;
-            top: 0; left: 0;
-            z-index: 100;
-            transition: background-color var(--transition-speed), border-bottom-color var(--transition-speed);
-            border-bottom: 1px solid transparent;
-        }
-        
-        .header.scrolled {
-            background-color: hsla(from var(--surface-color) h s l / 0.85);
-            -webkit-backdrop-filter: blur(10px);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--outline-color);
-        }
-
+        .header { background-color: var(--surface-color); position: fixed; width: 100%; top: 0; left: 0; z-index: 100; transition: background-color var(--transition-speed), border-bottom-color var(--transition-speed); border-bottom: 1px solid transparent; }
+        .header.scrolled { background-color: hsla(from var(--surface-color) h s l / 0.85); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom-color: var(--outline-color); }
         .nav { display: flex; justify-content: space-between; align-items: center; height: 5rem; }
         .nav__menu-container { display: flex; align-items: center; gap: 1rem; }
-        .nav__logo { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); }
+        .nav__logo { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); transition: text-shadow 0.3s ease; }
+        .nav__logo:hover { text-shadow: 0 0 8px hsla(from var(--primary-color) h s l / 0.7); }
         .nav__list { list-style: none; display: flex; gap: 2.5rem; }
         .nav__link { font-weight: 600; color: var(--on-surface-color); position: relative; padding: 0.5rem 0; }
         .nav__link::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: var(--primary-color); transform: scaleX(0); transform-origin: bottom right; transition: transform var(--transition-speed); }
         .nav__link:hover::after { transform: scaleX(1); transform-origin: bottom left; }
         .nav__toggle { display: none; }
 
-        /* --- Botón de Tema (Icon Button) & Ripple --- */
-        .icon-button {
-            background: none; border: none; cursor: pointer; color: var(--on-surface-variant-color);
-            display: flex; align-items: center; justify-content: center;
-            width: 40px; height: 40px; border-radius: var(--md-sys-shape-corner-full);
-            position: relative; overflow: hidden;
-            transition: background-color var(--transition-speed);
-        }
+        /* --- Botones y Ripple --- */
+        .icon-button { background: none; border: none; color: var(--on-surface-variant-color); display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: var(--md-sys-shape-corner-full); position: relative; overflow: hidden; transition: background-color var(--transition-speed); }
         .icon-button:hover { background-color: hsla(from var(--on-surface-color) h s l / 0.08); }
         .theme-toggle .feather { width: 24px; height: 24px; }
         .theme-toggle .icon-sun { display: none; }
         body.dark-theme .theme-toggle .icon-sun { display: block; }
         body.dark-theme .theme-toggle .icon-moon { display: none; }
-        
-        /* --- Sección Hero --- */
-        .hero { display: flex; align-items: center; justify-content: center; text-align: center; min-height: 100vh; padding-top: 5rem; }
-        .hero .type-display { margin-bottom: 1rem; }
-        .hero .type-headline { margin-bottom: 2.5rem; max-width: 600px; margin-inline: auto; }
-        .hero .type-headline span { color: var(--primary-color); font-weight: 600; }
-        
-        /* --- Botón MD3 (Filled & Outlined Button) --- */
-        .btn {
-            display: inline-flex; align-items: center; justify-content: center;
-            padding: 0.75rem 2rem; border-radius: var(--md-sys-shape-corner-full);
-            font-weight: 600; font-size: 1rem;
-            border: 1px solid transparent; cursor: pointer; text-decoration: none;
-            position: relative; overflow: hidden;
-            box-shadow: 0 1px 3px 0 hsla(from var(--shadow-color) h s l / 0.2), 0 1px 2px 0 hsla(from var(--shadow-color) h s l / 0.1);
-            transition: box-shadow var(--transition-speed), background-color var(--transition-speed), transform var(--transition-speed), border-color var(--transition-speed);
-            background-color: var(--primary-color); color: var(--on-primary-color);
-        }
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.75rem 2rem; border-radius: var(--md-sys-shape-corner-full); font-weight: 600; font-size: 1rem; border: 1px solid transparent; text-decoration: none; position: relative; overflow: hidden; box-shadow: 0 1px 3px 0 hsla(from var(--shadow-color) h s l / 0.2), 0 1px 2px 0 hsla(from var(--shadow-color) h s l / 0.1); transition: box-shadow var(--transition-speed), background-color var(--transition-speed), transform var(--transition-speed), border-color var(--transition-speed); background-color: var(--primary-color); color: var(--on-primary-color); }
         .btn:hover { box-shadow: 0 4px 6px -1px hsla(from var(--shadow-color) h s l / 0.2), 0 2px 4px -1px hsla(from var(--shadow-color) h s l / 0.1); transform: translateY(-2px); }
         .btn:active { transform: translateY(0); }
         .btn--secondary { background-color: transparent; color: var(--primary-color); border-color: var(--outline-color); box-shadow: none; }
         .btn--secondary:hover { background-color: hsla(from var(--primary-color) h s l / 0.08); border-color: var(--primary-color); box-shadow: none; }
-        
-        /* --- Efecto Ripple MD3 --- */
         .ripple { position: absolute; border-radius: 50%; background-color: var(--ripple-color); transform: scale(0); animation: ripple-effect 0.6s linear; opacity: 0.2; }
         @keyframes ripple-effect { to { transform: scale(4); opacity: 0; } }
 
-        /* --- Sección "Sobre Mí" --- */
+        /* --- Cursor Personalizado --- */
+        .cursor-dot, .cursor-outline { pointer-events: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9999; opacity: 0; transition: opacity 0.3s, transform 0.1s linear; }
+        .cursor-dot { width: 8px; height: 8px; background-color: var(--primary-color); }
+        .cursor-outline { width: 40px; height: 40px; border: 2px solid var(--primary-color); }
+        body:hover .cursor-dot, body:hover .cursor-outline { opacity: 1; }
+        .cursor-interact { transform: translate(-50%, -50%) scale(2.5); }
+        
+        /* --- Secciones --- */
+        .hero { display: flex; align-items: center; justify-content: center; text-align: center; min-height: 100vh; padding-top: 5rem; }
+        .hero .type-display { margin-bottom: 1rem; }
+        .hero .type-headline { margin-bottom: 2.5rem; max-width: 600px; margin-inline: auto; }
+        .hero .type-headline span { color: var(--primary-color); font-weight: 600; }
         .about__container { display: grid; grid-template-columns: 1fr 2fr; align-items: center; gap: 4rem; }
-        .about__img { width: 300px; height: 300px; border-radius: 50%; object-fit: cover; border: 6px solid var(--primary-container-color); padding: 4px; justify-self: center; transition: border-color var(--transition-speed); }
+        .about__img { width: 300px; height: 300px; border-radius: 50%; object-fit: cover; border: 6px solid var(--primary-container-color); padding: 4px; justify-self: center; transition: border-color var(--transition-speed), box-shadow var(--transition-speed); }
+        .about__img:hover { box-shadow: 0 0 25px hsla(from var(--primary-color) h s l / 0.4); }
         .about__text p { max-width: 65ch; }
 
-        /* --- Sección "Proyectos" --- */
         #projects { background-color: var(--surface-container-high); transition: background-color var(--transition-speed); }
-        .projects__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 2rem; max-height: 550px; overflow: hidden; transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-        .projects__grid.is-expanded { max-height: 3000px; }
-        .project-card { background: var(--surface-color); border-radius: var(--md-sys-shape-corner-large); border: 1px solid var(--outline-color); overflow: hidden; display: flex; flex-direction: column; position: relative; transition: transform var(--transition-speed), box-shadow var(--transition-speed), border-color var(--transition-speed); }
-        .project-card:hover { transform: translateY(-8px); box-shadow: 0 10px 15px -3px hsla(from var(--shadow-color) h s l / 0.1), 0 4px 6px -2px hsla(from var(--shadow-color) h s l / 0.05); border-color: var(--primary-color); }
+        .projects-wrapper { position: relative; }
+        .projects-main-view, .projects-filter-view { transition: opacity 0.4s ease-out, transform 0.4s ease-out; }
+        .projects-wrapper.filter-active .projects-main-view { opacity: 0; transform: scale(0.98); pointer-events: none; }
+        .projects-wrapper.filter-active .projects-filter-view { opacity: 1; transform: scale(1); visibility: visible; }
+        .projects__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 2rem; transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .projects-main-view .projects__grid { max-height: 550px; overflow: hidden; }
+        .projects-main-view .projects__grid.is-expanded { max-height: 3000px; }
+        .project-card { background: var(--surface-color); border-radius: var(--md-sys-shape-corner-large); border: 1px solid var(--outline-color); overflow: hidden; display: flex; flex-direction: column; position: relative; transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow var(--transition-speed), border-color var(--transition-speed); animation: card-breathe 7s ease-in-out infinite alternate; animation-delay: var(--animation-delay, 0s); }
+        .project-card:hover { transform: perspective(1000px) rotateX(2deg) rotateY(-7deg) scale(1.05); box-shadow: 0 20px 25px -5px hsla(from var(--shadow-color) h s l / 0.1), 0 10px 10px -5px hsla(from var(--shadow-color) h s l / 0.04); border-color: var(--primary-color); animation-play-state: paused; }
         .project-card__img { width: 100%; height: 220px; object-fit: cover; border-bottom: 1px solid var(--outline-color); }
         .project-card__content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
         .project-card__tags { margin-bottom: 1rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
-        .project-card__tag { background-color: var(--primary-container-color); color: var(--on-primary-container-color); padding: 0.3rem 0.85rem; border-radius: var(--md-sys-shape-corner-medium); font-size: 0.85rem; font-weight: 600; }
+        .project-card__tag { background-color: var(--primary-container-color); color: var(--on-primary-container-color); padding: 0.3rem 0.85rem; border-radius: var(--md-sys-shape-corner-medium); font-size: 0.85rem; font-weight: 600; transition: background-color var(--transition-speed); }
+        .project-card__tag:hover { background-color: hsla(from var(--on-primary-container-color) h s l / 0.1); }
         .project-card__title { margin-bottom: 0.5rem; font-size: 1.5rem; color: var(--on-surface-color); }
         .project-card__description { margin-bottom: 1.5rem; flex-grow: 1; font-size: 1rem; color: var(--on-surface-variant-color); }
         .project-card__links a { font-weight: 600; margin-right: 1.5rem; display: inline-flex; align-items: center; gap: 0.25rem; }
         .projects__expand-container { margin-top: 2.5rem; text-align: center; display: none; }
-        
-        /* --- Sección "Contacto" --- */
+        .projects-filter-view { position: absolute; top: 0; left: 0; width: 100%; opacity: 0; transform: scale(1.02); visibility: hidden; }
+        .filter-view__header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        .filter-view__title { font-size: 1.5rem; }
+        .filter-view__tag-name { color: var(--primary-color); font-weight: 700; }
         .contact__container { max-width: 700px; margin: 0 auto; text-align: center; }
         .contact__container p { margin-bottom: 2.5rem; }
         .contact__form { display: grid; gap: 1.5rem; }
         .contact__form .btn { justify-self: center; width: 200px; }
         .form-group { position: relative; }
-        .form-input { width: 100%; padding: 1rem; border: 1px solid var(--outline-color); border-radius: var(--md-sys-shape-corner-small); font-family: var(--md-sys-typescale-font-family); font-size: 1rem; background: transparent; color: var(--on-surface-color); transition: border-color var(--transition-speed); }
+        .form-input { width: 100%; padding: 1rem; border: 1px solid var(--outline-color); border-radius: var(--md-sys-shape-corner-medium); font-family: var(--md-sys-typescale-font-family); font-size: 1rem; background: transparent; color: var(--on-surface-color); transition: border-color var(--transition-speed), box-shadow var(--transition-speed); }
         .form-input::placeholder { color: transparent; }
         .form-label { position: absolute; top: 1rem; left: 1rem; color: var(--on-surface-variant-color); pointer-events: none; transition: all var(--transition-speed); }
-        .form-input:focus, .form-input:not(:placeholder-shown) { outline: 2px solid transparent; border-color: var(--primary-color); }
+        .form-input:focus, .form-input:not(:placeholder-shown) { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 2px hsla(from var(--primary-color) h s l / 0.2); }
         .form-input:focus ~ .form-label, .form-input:not(:placeholder-shown) ~ .form-label { top: -0.6rem; left: 0.8rem; font-size: 0.8rem; color: var(--primary-color); background-color: var(--background-color); padding: 0 0.25rem; }
         .form-status { margin-top: 1rem; font-weight: 600; }
 
         /* --- Footer --- */
         .footer { background: var(--surface-container-high); color: var(--on-surface-variant-color); text-align: center; padding: 3rem 0; transition: background-color var(--transition-speed), color var(--transition-speed); border-top: 1px solid var(--outline-color); }
 
-        /* --- Animaciones de Scroll --- */
-        .animate-on-scroll { opacity: 0; transform: translateY(30px); transition: opacity var(--transition-motion), transform var(--transition-motion); }
-        .animate-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
+        /* --- Animaciones Pasivas y de Scroll --- */
+        .background-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden; }
+        .blob { position: absolute; border-radius: 50%; background: var(--primary-container-color); opacity: 0.15; filter: blur(80px); transition: background-color var(--transition-speed); }
+        .blob1 { width: 450px; height: 450px; top: -150px; left: -150px; animation: move 25s infinite alternate; }
+        .blob2 { width: 350px; height: 350px; bottom: -100px; right: -100px; animation: move 30s infinite alternate-reverse; animation-delay: -5s; }
+        .animate-on-scroll { opacity: 0; transform: translateY(40px) scale(0.98); transition: opacity var(--transition-motion), transform var(--transition-motion); }
+        .animate-on-scroll.is-visible { opacity: 1; transform: translateY(0) scale(1); }
+        .hero .type-display { animation: float 6s ease-in-out infinite; }
+        .hero .type-headline span#typewriter { animation: text-glow 4s ease-in-out infinite; }
+        .about__img { animation: float 8s ease-in-out infinite; animation-delay: -2s; }
+        
+        /* -- Estilos para la animación de máquina de escribir -- */
+        .type-headline span#typewriter {
+            position: relative;
+        }
+        .type-headline span#typewriter::after {
+            content: '|';
+            position: absolute;
+            right: -8px;
+            animation: blink 0.7s infinite;
+            color: var(--primary-color);
+        }
 
+        @keyframes move { from { transform: translate(-100px, 50px) rotate(0deg); } to { transform: translate(100px, -50px) rotate(180deg); } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        @keyframes text-glow { 0%, 100% { text-shadow: 0 0 5px hsla(from var(--primary-color) h s l / 0.5); } 50% { text-shadow: 0 0 15px hsla(from var(--primary-color) h s l / 0.8); } }
+        @keyframes card-breathe { 0%, 100% { box-shadow: 0 2px 4px hsla(from var(--shadow-color) h s l / 0.05); } 50% { box-shadow: 0 6px 12px hsla(from var(--shadow-color) h s l / 0.08); } }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        
         /* --- Responsive Design (Media Queries) --- */
         @media (max-width: 768px) {
-             h2.type-title-large { font-size: 1.5rem; }
+            .cursor-dot, .cursor-outline, .background-animation { display: none; }
+            body { cursor: auto; }
+            h2.type-title-large { font-size: 1.5rem; }
             .nav__list { position: fixed; top: 5rem; right: -100%; width: 100%; height: calc(100vh - 5rem); background-color: var(--surface-color); flex-direction: column; align-items: center; justify-content: center; transition: right var(--transition-speed); gap: 2rem; }
             .nav__list.active { right: 0; }
             .nav__link { font-size: 1.5rem; }
@@ -265,6 +258,13 @@
     </style>
 </head>
 <body>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+    <div class="background-animation">
+        <div class="blob blob1"></div>
+        <div class="blob blob2"></div>
+    </div>
 
     <header class="header" id="header">
         <div class="container nav">
@@ -295,7 +295,7 @@
         <section id="hero" class="hero">
             <div class="container">
                 <h1 class="type-display animate-on-scroll">Hola, soy Iván</h1>
-                <p class="type-headline animate-on-scroll" style="transition-delay: 100ms;">Desarrollador Multiplataforma <span>Full Stack</span></p>
+                <p class="type-headline animate-on-scroll" style="transition-delay: 100ms;">Desarrollador Multiplataforma <span id="typewriter"></span></p>
                 <a href="#projects" class="btn animate-on-scroll" style="transition-delay: 200ms;" data-ripple>Ver mis proyectos</a>
             </div>
         </section>
@@ -306,11 +306,11 @@
                 <div class="about__container">
                     <img src="img/FotoPortfolio.jpg" alt="Foto de perfil de Iván López" class="about__img animate-on-scroll">
                     <div class="about__text animate-on-scroll" style="transition-delay: 100ms;">
-                         <p>
-                             ¡Bienvenido a mi rincón digital! Soy un apasionado desarrollador multiplataforma enfocado en construir soluciones tecnológicas que sean tanto funcionales como visualmente atractivas.
-                             <br><br>
-                             Mi especialidad es el desarrollo con tecnologías como Java, Python, C# o C++. Me encanta transformar ideas complejas en interfaces de usuario intuitivas y eficientes. Estoy siempre en busca de nuevos retos para seguir aprendiendo y mejorando mis habilidades.
-                         </p>
+                        <p>
+                            ¡Bienvenido a mi rincón digital! Soy un apasionado desarrollador multiplataforma enfocado en construir soluciones tecnológicas que sean tanto funcionales como visualmente atractivas.
+                            <br><br>
+                            Mi especialidad es el desarrollo con tecnologías como Java, Python, C# o C++. Me encanta transformar ideas complejas en interfaces de usuario intuitivas y eficientes. Estoy siempre en busca de nuevos retos para seguir aprendiendo y mejorando mis habilidades.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -319,88 +319,102 @@
         <section id="projects">
             <div class="container">
                 <h2 class="type-title-large animate-on-scroll">Mis Proyectos</h2>
-                <div class="projects__grid">
 
-                    <article class="project-card animate-on-scroll" data-ripple>
-                        <img src="img/cuentaPersonas.png" alt="Imagen del Proyecto Cuenta Personas" class="project-card__img">
-                        <div class="project-card__content">
-                            <div class="project-card__tags">
-                                <span class="project-card__tag">IA</span>
-                                <span class="project-card__tag">Web</span>
-                                <span class="project-card__tag">3D</span>
-                            </div>
-                            <h3 class="project-card__title">Cuenta Personas</h3>
-                            <p class="project-card__description">
-                                Aplicación de gestión de personas que permite a los usuarios crear, organizar y buscar información de manera eficiente. Utiliza tecnologías web modernas para una experiencia fluida.
-                            </p>
-                            <div class="project-card__links">
-                                <a href="https://ivix542.github.io/Cuenta-Personas/" target="_blank">Probar <i data-feather="arrow-up-right" width="16"></i></a>
-                                <a href="https://github.com/IVIX542/Cuenta-Personas" target="_blank">Código <i data-feather="github" width="16"></i></a>
-                            </div>
+                <div class="projects-wrapper">
+                    <div class="projects-main-view">
+                        <div class="projects__grid">
+                            <article class="project-card animate-on-scroll" data-tags="IA,Web,3D" data-ripple>
+                                <img src="img/cuentaPersonas.png" alt="Imagen del Proyecto Cuenta Personas" class="project-card__img">
+                                <div class="project-card__content">
+                                    <div class="project-card__tags">
+                                        <span class="project-card__tag" data-tag="IA">IA</span>
+                                        <span class="project-card__tag" data-tag="Web">Web</span>
+                                        <span class="project-card__tag" data-tag="3D">3D</span>
+                                    </div>
+                                    <h3 class="project-card__title">Cuenta Personas</h3>
+                                    <p class="project-card__description">
+                                        Aplicación de gestión de personas que permite a los usuarios crear, organizar y buscar información de manera eficiente. Utiliza tecnologías web modernas para una experiencia fluida.
+                                    </p>
+                                    <div class="project-card__links">
+                                        <a href="https://ivix542.github.io/Cuenta-Personas/" target="_blank">Probar <i data-feather="arrow-up-right" width="16"></i></a>
+                                        <a href="https://github.com/IVIX542/Cuenta-Personas" target="_blank">Código <i data-feather="github" width="16"></i></a>
+                                    </div>
+                                </div>
+                            </article>
+    
+                            <article class="project-card animate-on-scroll" data-tags="IA,Web,MD3" data-ripple>
+                                <img src="img/pomodoroWeb.png" alt="Imagen del Proyecto Pomodoro Web" class="project-card__img">
+                                <div class="project-card__content">
+                                    <div class="project-card__tags">
+                                        <span class="project-card__tag" data-tag="IA">IA</span>
+                                        <span class="project-card__tag" data-tag="Web">Web</span>
+                                        <span class="project-card__tag" data-tag="MD3">MD3</span>
+                                    </div>
+                                    <h3 class="project-card__title">Pomodoro Web</h3>
+                                    <p class="project-card__description">
+                                        Aplicación web de gestión de tiempo basada en la técnica Pomodoro. Permite a los usuarios organizar su trabajo en intervalos de tiempo con descansos regulares, mejorando la productividad y concentración.
+                                    </p>
+                                    <div class="project-card__links">
+                                        <a href="https://ivix542.github.io/Pomodoro-Web/" target="_blank">Probar <i data-feather="arrow-up-right" width="16"></i></a>
+                                        <a href="https://github.com/IVIX542/Pomodoro-Web" target="_blank">Código <i data-feather="github" width="16"></i></a>
+                                        <a href="https://ivix542.github.io/DocumentacionPomodoroWeb/" target="_blank">Proceso <i data-feather="book-open" width="16"></i></a>
+                                    </div>
+                                </div>
+                            </article>
+    
+                            <article class="project-card animate-on-scroll" data-tags="React,Vite" data-ripple>
+                                <img src="https://placehold.co/600x440/d8e2ff/001a41?text=Proyecto+3" alt="Imagen del Proyecto 3" class="project-card__img">
+                                <div class="project-card__content">
+                                    <div class="project-card__tags">
+                                        <span class="project-card__tag" data-tag="React">React</span>
+                                        <span class="project-card__tag" data-tag="Vite">Vite</span>
+                                    </div>
+                                    <h3 class="project-card__title">Nombre del Proyecto 3</h3>
+                                    <p class="project-card__description">
+                                        Una breve descripción del proyecto. Explica su propósito, los desafíos que enfrentaste y las tecnologías que utilizaste.
+                                    </p>
+                                    <div class="project-card__links">
+                                        <a href="#" target="_blank">Probar <i data-feather="arrow-up-right" width="16"></i></a>
+                                        <a href="#" target="_blank">Código <i data-feather="github" width="16"></i></a>
+                                        <a href="#" target="_blank">Proceso <i data-feather="book-open" width="16"></i></a>
+                                    </div>
+                                </div>
+                            </article>
+                            
+                            <article class="project-card animate-on-scroll" data-tags="Web,Firebase" data-ripple>
+                                <img src="https://placehold.co/600x440/d8e2ff/001a41?text=Proyecto+4" alt="Imagen del Proyecto 4" class="project-card__img">
+                                <div class="project-card__content">
+                                    <div class="project-card__tags">
+                                        <span class="project-card__tag" data-tag="Web">Web</span>
+                                        <span class="project-card__tag" data-tag="Firebase">Firebase</span>
+                                    </div>
+                                    <h3 class="project-card__title">Nombre del Proyecto 4</h3>
+                                    <p class="project-card__description">
+                                        Una breve descripción del proyecto. Explica su propósito, los desafíos que enfrentaste y las tecnologías que utilizaste.
+                                    </p>
+                                    <div class="project-card__links">
+                                        <a href="#" target="_blank">Probar <i data-feather="arrow-up-right" width="16"></i></a>
+                                        <a href="#" target="_blank">Código <i data-feather="github" width="16"></i></a>
+                                    </div>
+                                </div>
+                            </article>
                         </div>
-                    </article>
+                        <div class="projects__expand-container animate-on-scroll">
+                            <button class="btn btn--secondary" id="expand-projects-btn" data-ripple>Ver más</button>
+                        </div>
+                    </div>
 
-                    <article class="project-card animate-on-scroll" data-ripple>
-                        <img src="img/pomodoroWeb.png" alt="Imagen del Proyecto Pomodoro Web" class="project-card__img">
-                        <div class="project-card__content">
-                             <div class="project-card__tags">
-                                 <span class="project-card__tag">IA</span>
-                                 <span class="project-card__tag">Web</span>
-                                 <span class="project-card__tag">MD3</span>
-                             </div>
-                            <h3 class="project-card__title">Pomodoro Web</h3>
-                            <p class="project-card__description">
-                                Una breve descripción del proyecto. Explica su propósito, los desafíos que enfrentaste y las tecnologías que utilizaste.
-                            </p>
-                            <div class="project-card__links">
-                                <a href="https://ivix542.github.io/Pomodoro-Web/" target="_blank">Probar <i data-feather="arrow-up-right" width="16"></i></a>
-                                <a href="https://github.com/IVIX542/Pomodoro-Web" target="_blank">Código <i data-feather="github" width="16"></i></a>
-                                <a href="https://ivix542.github.io/DocumentacionPomodoroWeb/" target="_blank">Proceso <i data-feather="book-open" width="16"></i></a>
-                            </div>
+                    <div id="projects-filter-view" class="projects-filter-view">
+                        <div class="filter-view__header">
+                            <h3 id="filter-view-title" class="filter-view__title"></h3>
+                            <button id="close-filter-btn" class="icon-button" aria-label="Cerrar vista filtrada" data-ripple>
+                                <i data-feather="x"></i>
+                            </button>
                         </div>
-                    </article>
-
-                    <article class="project-card animate-on-scroll" data-ripple>
-                        <img src="https://placehold.co/600x440/d8e2ff/001a41?text=Proyecto+3" alt="Imagen del Proyecto 3" class="project-card__img">
-                        <div class="project-card__content">
-                            <div class="project-card__tags">
-                                <span class="project-card__tag">React</span>
-                                <span class="project-card__tag">CSS Modules</span>
-                                <span class="project-card__tag">Vite</span>
-                            </div>
-                            <h3 class="project-card__title">Nombre del Proyecto 3</h3>
-                            <p class="project-card__description">
-                                Una breve descripción del proyecto. Explica su propósito, los desafíos que enfrentaste y las tecnologías que utilizaste.
-                            </p>
-                            <div class="project-card__links">
-                                <a href="#" target="_blank">Probar <i data-feather="arrow-up-right" width="16"></i></a>
-                                <a href="#" target="_blank">Código <i data-feather="github" width="16"></i></a>
-                                <a href="#" target="_blank">Proceso <i data-feather="book-open" width="16"></i></a>
-                            </div>
+                        <div id="filtered-projects-grid" class="projects__grid">
+                            <!-- Filtered projects will be injected here -->
                         </div>
-                    </article>
-                    
-                    <article class="project-card animate-on-scroll" data-ripple>
-                        <img src="https://placehold.co/600x440/d8e2ff/001a41?text=Proyecto+4" alt="Imagen del Proyecto 4" class="project-card__img">
-                        <div class="project-card__content">
-                            <div class="project-card__tags">
-                                <span class="project-card__tag">Vue.js</span>
-                                <span class="project-card__tag">Firebase</span>
-                            </div>
-                            <h3 class="project-card__title">Nombre del Proyecto 4</h3>
-                            <p class="project-card__description">
-                                Una breve descripción del proyecto. Explica su propósito, los desafíos que enfrentaste y las tecnologías que utilizaste.
-                            </p>
-                            <div class="project-card__links">
-                                <a href="#" target="_blank">Probar <i data-feather="arrow-up-right" width="16"></i></a>
-                                <a href="#" target="_blank">Código <i data-feather="github" width="16"></i></a>
-                            </div>
-                        </div>
-                    </article>
-
-                </div>
-                <div class="projects__expand-container animate-on-scroll">
-                    <button class="btn btn--secondary" id="expand-projects-btn" data-ripple>Ver más</button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -410,7 +424,7 @@
                 <h2 class="type-title-large animate-on-scroll">Contacto</h2>
                 <p class="animate-on-scroll">¿Interesado en colaborar o tienes alguna pregunta? No dudes en contactarme. Rellena el formulario y te responderé lo antes posible.</p>
                 
-                <form id="contact-form" class="contact__form animate-on-scroll" action="https://formspree.io/f/xeorvrgw" method="POST">
+                <form id="contact-form" class="contact__form animate-on-scroll" action="https://formspree.io/f/YOUR_UNIQUE_ID" method="POST">
                     <div class="form-group">
                         <input type="text" id="name" name="name" class="form-input" placeholder="Nombre" required>
                         <label for="name" class="form-label">Nombre</label>
@@ -442,74 +456,110 @@
             
             feather.replace();
 
+            // --- Custom Cursor ---
+            const cursorDot = document.querySelector('.cursor-dot');
+            const cursorOutline = document.querySelector('.cursor-outline');
+            window.addEventListener('mousemove', function(e) {
+                cursorDot.style.left = `${e.clientX}px`;
+                cursorDot.style.top = `${e.clientY}px`;
+                cursorOutline.style.left = `${e.clientX}px`;
+                cursorOutline.style.top = `${e.clientY}px`;
+            });
+            
+            document.querySelectorAll('a, button, .project-card__tag, .project-card').forEach(el => {
+                el.addEventListener('mouseenter', () => cursorOutline.classList.add('cursor-interact'));
+                el.addEventListener('mouseleave', () => cursorOutline.classList.remove('cursor-interact'));
+            });
+
             // --- Ripple Effect ---
             function createRipple(event) {
-                const button = event.currentTarget;
+                const el = event.currentTarget;
                 const circle = document.createElement("span");
-                const diameter = Math.max(button.clientWidth, button.clientHeight);
+                const diameter = Math.max(el.clientWidth, el.clientHeight);
                 const radius = diameter / 2;
-
                 circle.style.width = circle.style.height = `${diameter}px`;
-                circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
-                circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
+                circle.style.left = `${event.clientX - el.getBoundingClientRect().left - radius}px`;
+                circle.style.top = `${event.clientY - el.getBoundingClientRect().top - radius}px`;
                 circle.classList.add("ripple");
-
-                const ripple = button.getElementsByClassName("ripple")[0];
-                if (ripple) {
-                    ripple.remove();
-                }
-                button.appendChild(circle);
+                const ripple = el.getElementsByClassName("ripple")[0];
+                if (ripple) ripple.remove();
+                el.appendChild(circle);
+            }
+            
+            function addRippleListener(element) {
+                element.addEventListener("click", createRipple);
             }
 
-            const rippleElements = document.querySelectorAll("[data-ripple]");
-            rippleElements.forEach(el => {
-                el.addEventListener("click", createRipple);
-            });
+            document.querySelectorAll("[data-ripple]").forEach(addRippleListener);
 
             // --- Menú de Navegación Móvil ---
             const navToggle = document.getElementById('nav-toggle');
             const navList = document.getElementById('nav-list');
             const navLinks = document.querySelectorAll('.nav__link');
-
-            navToggle.addEventListener('click', () => {
-                navList.classList.toggle('active');
-            });
-
-            navLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    navList.classList.remove('active');
-                });
-            });
+            navToggle.addEventListener('click', () => navList.classList.toggle('active'));
+            navLinks.forEach(link => link.addEventListener('click', () => navList.classList.remove('active')));
 
             // --- Lógica del Tema Claro/Oscuro ---
             const themeToggle = document.getElementById('theme-toggle');
-            const applyTheme = (theme) => {
-                document.body.classList.toggle('dark-theme', theme === 'dark-theme');
-            };
-            
+            const applyTheme = (theme) => document.body.classList.toggle('dark-theme', theme === 'dark-theme');
             const savedTheme = localStorage.getItem('theme');
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            
             applyTheme(savedTheme || (prefersDark ? 'dark-theme' : 'light-theme'));
-
             themeToggle.addEventListener('click', () => {
                 const isDark = document.body.classList.toggle('dark-theme');
                 localStorage.setItem('theme', isDark ? 'dark-theme' : 'light-theme');
             });
 
+            // --- Typewriter Effect ---
+            const typewriterElement = document.getElementById('typewriter');
+            if (typewriterElement) {
+                const words = ["Creativo", "Eficiente", "Moderno"];
+                let wordIndex = 0;
+                let charIndex = 0;
+                let isDeleting = false;
+
+                function type() {
+                    const currentWord = words[wordIndex];
+                    let displayText = '';
+
+                    if (isDeleting) {
+                        displayText = currentWord.substring(0, charIndex - 1);
+                        charIndex--;
+                    } else {
+                        displayText = currentWord.substring(0, charIndex + 1);
+                        charIndex++;
+                    }
+
+                    typewriterElement.textContent = displayText;
+                    let typeSpeed = 150;
+
+                    if (isDeleting) {
+                        typeSpeed /= 2;
+                    }
+
+                    if (!isDeleting && displayText === currentWord) {
+                        typeSpeed = 2000;
+                        isDeleting = true;
+                    } else if (isDeleting && displayText === '') {
+                        isDeleting = false;
+                        wordIndex = (wordIndex + 1) % words.length;
+                        typeSpeed = 500;
+                    }
+
+                    setTimeout(type, typeSpeed);
+                }
+                setTimeout(type, 500);
+            }
+
             // --- Lógica del Formulario de Contacto ---
             const form = document.getElementById('contact-form');
             if(form) {
-                async function handleSubmit(event) {
+                form.addEventListener("submit", async function handleSubmit(event) {
                     event.preventDefault();
                     const status = document.getElementById("form-status");
                     const data = new FormData(event.target);
                     try {
-                        const response = await fetch(event.target.action, {
-                            method: form.method,
-                            body: data,
-                            headers: { 'Accept': 'application/json' }
-                        });
+                        const response = await fetch(event.target.action, { method: form.method, body: data, headers: { 'Accept': 'application/json' }});
                         if (response.ok) {
                             status.textContent = "¡Gracias por tu mensaje! Me pondré en contacto contigo pronto.";
                             status.style.color = 'var(--primary-color)';
@@ -521,50 +571,46 @@
                         status.textContent = "Oops! Hubo un problema al enviar tu formulario.";
                         status.style.color = '#d93025';
                     }
-                }
-                form.addEventListener("submit", handleSubmit);
+                });
             }
 
-            // --- Animación al hacer Scroll (Intersection Observer) ---
+            // --- Animación al hacer Scroll ---
             const animatedElements = document.querySelectorAll('.animate-on-scroll');
             const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry, index) => {
+                entries.forEach((entry) => {
                     if (entry.isIntersecting) {
-                        // Aplica un retraso escalonado a cada elemento
-                        entry.target.style.transitionDelay = `${index * 100}ms`;
                         entry.target.classList.add('is-visible');
                     }
                 });
-            }, {
-                threshold: 0.1
+            }, { threshold: 0.1 });
+            animatedElements.forEach((el) => {
+                observer.observe(el);
             });
-            animatedElements.forEach(el => observer.observe(el));
             
-            // --- Header translúcido al hacer scroll ---
+            // --- Header translúcido ---
             const header = document.getElementById('header');
-            const scrollObserver = new IntersectionObserver(
-                ([e]) => e.target.classList.toggle('scrolled', e.intersectionRatio < 1),
-                { threshold: [1] }
-            );
+            const scrollObserver = new IntersectionObserver(([e]) => e.target.classList.toggle('scrolled', e.intersectionRatio < 1), { threshold: [1] });
             scrollObserver.observe(header);
 
-            // --- Lógica de Expansión de Proyectos ---
-            const projectsGrid = document.querySelector('.projects__grid');
+            // --- Lógica de Proyectos (Expandir y Filtrar) ---
+            const projectsGrid = document.querySelector('.projects-main-view .projects__grid');
             const expandBtnContainer = document.querySelector('.projects__expand-container');
-
+            const projectsWrapper = document.querySelector('.projects-wrapper');
+            const allProjectCards = Array.from(document.querySelectorAll('.project-card'));
+            const filterTitle = document.getElementById('filter-view-title');
+            const filteredGrid = document.getElementById('filtered-projects-grid');
+            const closeFilterBtn = document.getElementById('close-filter-btn');
+            
+            // 1. Lógica para expandir
             if (projectsGrid && expandBtnContainer) {
                 setTimeout(() => {
-                    const isOverflowing = projectsGrid.scrollHeight > projectsGrid.clientHeight;
-
-                    if (isOverflowing) {
+                    if (projectsGrid.scrollHeight > projectsGrid.clientHeight) {
                         const expandBtn = document.getElementById('expand-projects-btn');
                         expandBtnContainer.style.display = 'block';
-
                         expandBtn.addEventListener('click', () => {
                             projectsGrid.classList.toggle('is-expanded');
-                            const isExpanded = projectsGrid.classList.contains('is-expanded');
-                            expandBtn.textContent = isExpanded ? 'Ver menos' : 'Ver más';
-                            if (!isExpanded) {
+                            expandBtn.textContent = projectsGrid.classList.contains('is-expanded') ? 'Ver menos' : 'Ver más';
+                            if (!projectsGrid.classList.contains('is-expanded')) {
                                 document.getElementById('projects').scrollIntoView({ behavior: 'smooth' });
                             }
                         });
@@ -573,6 +619,39 @@
                     }
                 }, 100); 
             }
+
+            // 2. Lógica para filtrar
+            document.querySelectorAll('.project-card__tag').forEach(tag => {
+                tag.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const selectedTag = tag.dataset.tag;
+                    
+                    filteredGrid.innerHTML = '';
+                    const matchingProjects = allProjectCards.filter(card => card.dataset.tags.includes(selectedTag));
+                    
+                    matchingProjects.forEach(card => {
+                        const clone = card.cloneNode(true);
+                        clone.querySelectorAll('.project-card__tag').forEach(t => t.addEventListener('click', (ev) => ev.stopPropagation()));
+                        filteredGrid.appendChild(clone);
+                        addRippleListener(clone);
+                    });
+
+                    feather.replace();
+
+                    filterTitle.innerHTML = `Proyectos con: <span class="filter-view__tag-name">${selectedTag}</span>`;
+                    projectsWrapper.classList.add('filter-active');
+                });
+            });
+
+            // 3. Lógica para cerrar el filtro
+            closeFilterBtn.addEventListener('click', () => {
+                projectsWrapper.classList.remove('filter-active');
+            });
+
+            // 4. Stagger passive animations for project cards
+            document.querySelectorAll('.project-card').forEach((card, index) => {
+                card.style.setProperty('--animation-delay', `${index * 250}ms`);
+            });
         });
     </script>
 </body>
